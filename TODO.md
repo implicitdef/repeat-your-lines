@@ -1,2 +1,3 @@
-- Make it able to notify when the sentence ended
-- Make it able to play a bunch of phrases with different voices
+- Make it able to play a bunch of phrases with different voices from a config object
+- make it able to wait for resume in UI by hitting space bar
+- make it able to take the object from parsing a file

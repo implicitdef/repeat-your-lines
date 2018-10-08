@@ -9,7 +9,11 @@ class App extends Component {
     return (
       <button
         onClick={() => {
-          newSpeechService.saySomething({ text: "Bien le bonjour" });
+          newSpeechService.saySomething({
+            text: "Bien le bonjour monsieur comment va votre chien",
+            rate: 0.8,
+            pitch: 0.5
+          });
         }}
       >
         do something
