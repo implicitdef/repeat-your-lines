@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 //import logo from "./logo.svg";
 import "./App.css";
-import * as speech from "./services/speech";
+//import * as speech from "./services/speech";
+import * as newSpeechService from "./services/speech";
 
 class App extends Component {
-  saySomething = () => {
-    speech.saySomething({
-      text: "Ah, chère amie, vous étiez là ?"
-    });
-  };
-
   render() {
     return (
       <button
         onClick={() => {
-          this.saySomething();
+          newSpeechService.saySomething({ text: "Bien le bonjour" });
         }}
       >
         do something

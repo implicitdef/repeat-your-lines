@@ -1,29 +1,19 @@
-//import logo from "./logo.svg";
+console.log("newSpeechService.js");
+// It seems for chrome that we need to have a reference to window.speechSynthesis as soon as possible
+// it triggers some loading of the voices
+//window.speechSynthesis.getVoices();
 
-let onvoiceschangedDoneAlready = false;
-
-function prepareSpeechInstance() {
-  console.log("Building instance");
-  const instance = window.speechSynthesis;
-  return new Promise(resolve => {
-    // chrome
-    if (instance.onvoiceschanged !== undefined && !onvoiceschangedDoneAlready) {
-      instance.onvoiceschanged = () => resolve(instance);
-      onvoiceschangedDoneAlready = true;
-    } else {
-      // FF
-      resolve(instance);
-    }
-  });
+export function doSomething() {
+  const chosenVoice = pickAvailableVoice({ lang: "fr-FR" });
+  console.log("chosenVoice : ", chosenVoice);
 }
 
-function pickAvailableVoice(speechSynthesis, { lang, chosenVoice }) {
-  //debugger;
-  const voices = speechSynthesis.getVoices();
+function pickAvailableVoice({ lang, chosenVoice }) {
+  const voices = window.speechSynthesis.getVoices();
   const chosenVoiceFound = voices.find(_ => _ === chosenVoice);
   if (chosenVoiceFound && chosenVoiceFound.lang === lang)
     return chosenVoiceFound;
-  const firstVoiceForLang = voices.find(_ => _.lang === lang);
+  const firstVoiceForLang = lang && voices.find(_ => _.lang === lang);
   if (firstVoiceForLang) return firstVoiceForLang;
   const firstVoice = voices[0];
   if (firstVoice) return firstVoice;
@@ -38,16 +28,13 @@ export function saySomething({
   volume = 1,
   voice
 }) {
-  return prepareSpeechInstance().then(speechInstance => {
-    const finalVoice = pickAvailableVoice(speechInstance, { lang, voice });
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.pitch = pitch;
-    utterance.rate = rate;
-    utterance.volume = volume;
-    utterance.voice = finalVoice;
-    utterance.lang = lang;
-    console.log(`Saying "${text}" with ${finalVoice.name}`);
-    speechInstance.speak(utterance);
-    // TODO maybe return the promise only when it has finish talking
-  });
+  const finalVoice = pickAvailableVoice({ lang, voice });
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.pitch = pitch;
+  utterance.rate = rate;
+  utterance.volume = volume;
+  utterance.voice = finalVoice;
+  utterance.lang = lang;
+  console.log(`Saying "${text}" with ${finalVoice.name}`);
+  window.speechSynthesis.speak(utterance);
 }
