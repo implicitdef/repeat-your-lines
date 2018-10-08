@@ -1,0 +1,3 @@
+- Debug on Firefox
+- Make it able to notify when the sentence ended
+- Make it able to play a bunch of phrases with different voices
