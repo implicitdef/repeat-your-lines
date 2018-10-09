@@ -1,14 +1,8 @@
-console.log("newSpeechService.js");
 // It seems for chrome that we need to have a reference to window.speechSynthesis as soon as possible
 // it triggers some loading of the voices
 window.speechSynthesis.getVoices();
 
-export function doSomething() {
-  const chosenVoice = pickAvailableVoice({ lang: "fr-FR" });
-  console.log("chosenVoice : ", chosenVoice);
-}
-
-function pickAvailableVoice({ lang, chosenVoice }) {
+export function pickAvailableVoice({ lang, chosenVoice }) {
   const voices = window.speechSynthesis.getVoices();
   const chosenVoiceFound = voices.find(_ => _ === chosenVoice);
   if (chosenVoiceFound && chosenVoiceFound.lang === lang)
