@@ -5,8 +5,7 @@ window.speechSynthesis.getVoices();
 export function pickAvailableVoice({ lang, chosenVoice }) {
   const voices = window.speechSynthesis.getVoices();
   const chosenVoiceFound = voices.find(_ => _ === chosenVoice);
-  if (chosenVoiceFound && chosenVoiceFound.lang === lang)
-    return chosenVoiceFound;
+  if (chosenVoiceFound && chosenVoiceFound.lang === lang) return chosenVoiceFound;
   const firstVoiceForLang = lang && voices.find(_ => _.lang === lang);
   if (firstVoiceForLang) return firstVoiceForLang;
   const firstVoice = voices[0];
@@ -14,14 +13,7 @@ export function pickAvailableVoice({ lang, chosenVoice }) {
   throw new Error("Couldn't find a voice");
 }
 
-export function saySomething({
-  text,
-  lang = "fr-FR",
-  pitch = 1,
-  rate = 1,
-  volume = 1,
-  voice
-}) {
+export function saySomething({ text, lang = "fr-FR", pitch = 1, rate = 1, volume = 1, voice }) {
   const finalVoice = pickAvailableVoice({ lang, voice });
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.pitch = pitch;

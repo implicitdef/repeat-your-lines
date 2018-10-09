@@ -5,15 +5,26 @@ function associateVoicesAndVoiceFeatures(conversation) {
   const lang = "fr-FR";
   const voice = basicSpeech.pickAvailableVoice({ lang });
   const aFewDifferentVoiceFeatures = [
-    { rate: 0.8, pitch: 0.5, volume: 0.7 },
-    { rate: 1.2, pitch: 0.9, volume: 0.9 },
-    { rate: 1, pitch: 0.7, volume: 1.3 },
+    {
+      rate: 0.8,
+      pitch: 0.5,
+      volume: 0.7
+    },
+    {
+      rate: 1.2,
+      pitch: 0.9,
+      volume: 0.9
+    },
+    {
+      rate: 1,
+      pitch: 0.7,
+      volume: 1.3
+    },
     { rate: 1.3, pitch: 1, volume: 1.4 }
   ];
   const authorsToFeatures = {};
   authors.forEach((author, index) => {
-    const features =
-      aFewDifferentVoiceFeatures[index % aFewDifferentVoiceFeatures.length];
+    const features = aFewDifferentVoiceFeatures[index % aFewDifferentVoiceFeatures.length];
     authorsToFeatures[author] = {
       ...features,
       voice,
