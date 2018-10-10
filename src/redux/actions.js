@@ -5,5 +5,5 @@ export const startConversation = () => ({
   type: START_CONVERSATION
 });
 export const endConversation = () => ({
-  type: START_CONVERSATION
+  type: END_CONVERSATION
 });

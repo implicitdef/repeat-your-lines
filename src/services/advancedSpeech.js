@@ -24,7 +24,8 @@ function associateVoicesAndVoiceFeatures(conversation) {
   ];
   const authorsToFeatures = {};
   authors.forEach((author, index) => {
-    const features = aFewDifferentVoiceFeatures[index % aFewDifferentVoiceFeatures.length];
+    const features =
+      aFewDifferentVoiceFeatures[index % aFewDifferentVoiceFeatures.length];
     authorsToFeatures[author] = {
       ...features,
       voice,
@@ -39,6 +40,7 @@ function associateVoicesAndVoiceFeatures(conversation) {
 }
 
 export function speakConversation(conversation) {
+  console.log(`Starting to play conversation of length ${conversation.length}`);
   return associateVoicesAndVoiceFeatures(conversation)
     .reduce((acc, current) => {
       const { text, voice, pitch, rate, volume, lang } = current;

@@ -2,17 +2,19 @@ import React, { Fragment } from "react";
 import * as basicSpeech from "../services/basicSpeech";
 import * as advancedSpeech from "../services/advancedSpeech";
 import conversation from "../data/conversation";
-import { startConversation } from "../redux/actions";
+import * as actions from "../redux/actions";
+import * as thunks from "../redux/thunks";
 import { connect } from "react-redux";
 
-const SimpleButton = ({ label, func }) => <button onClick={func}>{label}</button>;
+const QuickButton = ({ label, func }) => (
+  <button onClick={func}>{label}</button>
+);
 
-const Buttons = ({ onClickBigButton, onPlayConversation }) => (
+const Controls = ({ onClickBigButton, onPlayConversation }) => (
   <Fragment>
     <div>
       <h2>direct acces to services</h2>
-
-      <SimpleButton
+      <QuickButton
         label="juste une phrase"
         func={() => {
           basicSpeech.saySomething({
@@ -22,7 +24,7 @@ const Buttons = ({ onClickBigButton, onPlayConversation }) => (
           });
         }}
       />
-      <SimpleButton
+      <QuickButton
         label="speak conversation with direct access to service"
         func={() => {
           advancedSpeech.speakConversation(conversation);
@@ -31,7 +33,8 @@ const Buttons = ({ onClickBigButton, onPlayConversation }) => (
     </div>
     <div>
       <h2>proper dispatch</h2>
-      <SimpleButton label="start Conversation" func={onClickBigButton} />
+      <QuickButton label="start Conversation" func={onClickBigButton} />
+      <QuickButton label="play Conversation" func={onPlayConversation} />
     </div>
   </Fragment>
 );
@@ -39,7 +42,7 @@ const Buttons = ({ onClickBigButton, onPlayConversation }) => (
 export default connect(
   null,
   dispatch => ({
-    onClickBigButton: () => dispatch(startConversation()),
-    onPlayConversation: () => dispatch(startConversation())
+    onClickBigButton: () => dispatch(actions.startConversation()),
+    onPlayConversation: () => dispatch(thunks.playConversation())
   })
-)(Buttons);
+)(Controls);
