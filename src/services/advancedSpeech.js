@@ -38,7 +38,7 @@ function associateVoicesAndVoiceFeatures(conversation) {
   }));
 }
 
-export function speakConversationAllInSameVoice(conversation) {
+export function speakConversation(conversation) {
   return associateVoicesAndVoiceFeatures(conversation)
     .reduce((acc, current) => {
       const { text, voice, pitch, rate, volume, lang } = current;

@@ -1,7 +1,7 @@
 import * as Actions from "./actions";
 import { combineReducers } from "redux";
 
-const conversation = (state, action) => {
+const conversation = (state = { isRunning: false }, action) => {
   switch (action.type) {
     case Actions.START_CONVERSATION:
       return { ...state, isRunning: true };
@@ -12,7 +12,6 @@ const conversation = (state, action) => {
   }
 };
 
-export default (previousState, action) =>
-  combineReducers({
-    conversation
-  });
+export default combineReducers({
+  conversation
+});

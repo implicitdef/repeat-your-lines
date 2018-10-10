@@ -1,9 +1,9 @@
 export const START_CONVERSATION = "start_conversation";
 export const END_CONVERSATION = "end_conversation";
 
-const startConversation = () => ({
+export const startConversation = () => ({
   type: START_CONVERSATION
 });
-const endConversation = () => ({
+export const endConversation = () => ({
   type: START_CONVERSATION
 });
