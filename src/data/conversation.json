@@ -1,7 +1,7 @@
 [
-  { "by": "Alp", "text": "Bonjour monsieur" },
-  { "by": "Bet", "text": "Bonjour madame" },
-  { "by": "Alp", "text": "Comment va votre chien ?" },
-  { "by": "Bet", "text": "Super bien !" },
-  { "by": "Gam", "text": "Euh... et moi tout le monde s'en fout ?" }
+  { "author": "Alp", "text": "Bonjour monsieur" },
+  { "author": "Bet", "text": "Bonjour madame" },
+  { "author": "Alp", "text": "Comment va votre chien ?" },
+  { "author": "Bet", "text": "Super bien !" },
+  { "author": "Gam", "text": "Euh... et moi tout le monde s'en fout ?" }
 ]

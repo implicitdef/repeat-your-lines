@@ -1,10 +1,9 @@
-import React, { Fragment } from "react";
-import * as basicSpeech from "../services/basicSpeech";
-import * as advancedSpeech from "../services/advancedSpeech";
-import conversation from "../data/conversation";
-import * as actions from "../redux/actions";
-import * as thunks from "../redux/thunks";
-import { connect } from "react-redux";
+import React, { Fragment } from 'react';
+import * as basicSpeech from '../services/basicSpeech';
+import * as advancedSpeech from '../services/advancedSpeech';
+import conversation from '../data/conversation';
+import * as thunks from '../redux/thunks';
+import { connect } from 'react-redux';
 
 const QuickButton = ({ label, func }) => (
   <button onClick={func}>{label}</button>
@@ -18,9 +17,9 @@ const Controls = ({ onClickBigButton, onPlayConversation }) => (
         label="juste une phrase"
         func={() => {
           basicSpeech.saySomething({
-            text: "Bien le bonjour monsieur comment va votre chien",
+            text: 'Bien le bonjour monsieur comment va votre chien',
             rate: 0.8,
-            pitch: 0.5
+            pitch: 0.5,
           });
         }}
       />
@@ -33,7 +32,6 @@ const Controls = ({ onClickBigButton, onPlayConversation }) => (
     </div>
     <div>
       <h2>proper dispatch</h2>
-      <QuickButton label="start Conversation" func={onClickBigButton} />
       <QuickButton label="play Conversation" func={onPlayConversation} />
     </div>
   </Fragment>
@@ -42,7 +40,6 @@ const Controls = ({ onClickBigButton, onPlayConversation }) => (
 export default connect(
   null,
   dispatch => ({
-    onClickBigButton: () => dispatch(actions.startConversation()),
-    onPlayConversation: () => dispatch(thunks.playConversation())
+    onPlayConversation: () => dispatch(thunks.playSentences()),
   })
 )(Controls);

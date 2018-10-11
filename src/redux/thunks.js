@@ -1,15 +1,35 @@
-import { startConversation, endConversation } from "./actions";
-import * as advancedSpeech from "../services/advancedSpeech";
-import conversation from "../data/conversation";
+import sentences from '../data/conversation';
+import * as advancedSpeech from '../services/advancedSpeech';
+import { actions, selectors } from './module';
 
-const shortenedConversation = conversation; //.slice(0, 1);
+export function playCurrentSentenceRecursive() {
+  return (dispatch, getState) => {
+    const sentence = selectors.currentSentence(getState());
+    if (sentence) {
+      const { text, author } = sentence;
+      const voicesFeatures = selectors.voicesFeaturesForAuthor(author);
+      if (!voicesFeatures) {
+        console.warn(`voices features not found for ${author}`);
+      }
+      dispatch(actions.setIsPlaying(true));
+      return advancedSpeech
+        .speakSingleSentence(text, voicesFeatures)
+        .then(() => {
+          dispatch(actions.setIsPlaying(false));
+          dispatch(actions.incrementCurrentSentenceIndex());
+          return dispatch(playCurrentSentenceRecursive());
+        });
+    }
+  };
+}
 
-export function playConversation() {
-  return dispatch => {
-    dispatch(startConversation());
-    return advancedSpeech.speakConversation(shortenedConversation).then(() => {
-      console.log("OK, in the promise then()");
-      dispatch(endConversation());
-    });
+export function playSentences() {
+  return (dispatch, getState) => {
+    dispatch(actions.registerSentences(sentences));
+    const authors = advancedSpeech.extractAuthorsFromSentences(sentences);
+    const map = advancedSpeech.associateVoiceAndVoiceFeaturesToAuthors(authors);
+    dispatch(actions.registerVoicesFeaturesMap(map));
+    dispatch(actions.setCurrentSentenceIndex(0));
+    return dispatch(playCurrentSentenceRecursive());
   };
 }

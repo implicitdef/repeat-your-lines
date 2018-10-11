@@ -1,8 +1,7 @@
-import * as basicSpeech from "./basicSpeech";
+import * as basicSpeech from './basicSpeech';
 
-function associateVoicesAndVoiceFeatures(conversation) {
-  const authors = [...new Set(conversation.map(_ => _.by))];
-  const lang = "fr-FR";
+export function associateVoiceAndVoiceFeaturesToAuthors(authors) {
+  const lang = 'fr-FR';
   const voice = basicSpeech.pickAvailableVoice({ lang });
   const aFewDifferentVoiceFeatures = [
     {
@@ -32,16 +31,38 @@ function associateVoicesAndVoiceFeatures(conversation) {
       lang
     };
   });
-  return conversation.map(({ by, text }) => ({
-    by,
+  return authorsToFeatures;
+}
+
+export function extractAuthorsFromSentences(conversation) {
+  return [...new Set(conversation.map(_ => _.author))];
+}
+
+export function associateVoicesAndVoiceFeaturesIntoConversation(conversation) {
+  const authors = extractAuthorsFromSentences(conversation);
+  const authorsToFeatures = associateVoiceAndVoiceFeaturesToAuthors(authors);
+  return conversation.map(({ author, text }) => ({
+    author,
     text,
-    ...authorsToFeatures[by]
+    ...authorsToFeatures[author]
   }));
+}
+
+export function speakSingleSentence(text, voiceAndVoiceFeatures) {
+  const { voice, pitch, rate, volume, lang } = voiceAndVoiceFeatures;
+  return basicSpeech.saySomething({
+    text,
+    voice,
+    pitch,
+    rate,
+    volume,
+    lang
+  });
 }
 
 export function speakConversation(conversation) {
   console.log(`Starting to play conversation of length ${conversation.length}`);
-  return associateVoicesAndVoiceFeatures(conversation)
+  return associateVoicesAndVoiceFeaturesIntoConversation(conversation)
     .reduce((acc, current) => {
       const { text, voice, pitch, rate, volume, lang } = current;
       return acc.then(() =>
@@ -56,6 +77,6 @@ export function speakConversation(conversation) {
       );
     }, Promise.resolve())
     .then(() => {
-      console.log("Conversation should be finished now");
+      console.log('Conversation should be finished now');
     });
 }

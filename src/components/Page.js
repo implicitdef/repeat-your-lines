@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 //import logo from "../logo.svg";
-import "./Page.css";
-import Controls from "./Controls";
-import Indicator from "./Indicator";
+import './Page.css';
+import Controls from './Controls';
+import Indicator from './Indicator';
 
 class Page extends Component {
   render() {
