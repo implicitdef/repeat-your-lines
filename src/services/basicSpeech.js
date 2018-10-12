@@ -21,11 +21,11 @@ export function pickAvailableVoice({ lang, chosenVoice }) {
 
 export function saySomething({
   text,
-  lang = "fr-FR",
+  lang = 'fr-FR',
   pitch = 1,
   rate = 1,
   volume = 1,
-  voice
+  voice,
 }) {
   const finalVoice = pickAvailableVoice({ lang, voice });
   const utterance = new SpeechSynthesisUtterance(text);
@@ -36,16 +36,21 @@ export function saySomething({
   utterance.lang = lang;
   const finishedPromise = new Promise((resolve, reject) => {
     utterance.onend = () => {
-      console.log("onend fired");
       resolve();
     };
-    utterance.onerror = () => {
-      console.log("onerror fired");
+    utterance.onerror = err => {
+      console.error('onerror fired', err);
       reject();
     };
   });
   window.utterances.push(utterance);
-  console.log(`Saying "${text}" with ${finalVoice.name}`);
+  const log = {
+    name: finalVoice.name,
+    pitch,
+    rate,
+    volume,
+  };
+  console.log(`Saying "${text}"`, log);
   window.speechSynthesis.speak(utterance);
   return finishedPromise;
 }

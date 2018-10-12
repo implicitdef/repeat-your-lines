@@ -1,3 +1,4 @@
-- debugger si les voices / authors sont bien utilisées
-- make it able to wait for resume in UI by hitting space bar
-- make it able to take the object from parsing a file
+- make it able to take the sentences (and who's the human) from parsing a file
+- make the initial space hit be equivalent to 'play conversation'
+- make 'play conversation' stop and reset everything
+- improve display and controls

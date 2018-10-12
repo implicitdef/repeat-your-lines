@@ -2,6 +2,7 @@
   { "author": "Alp", "text": "Bonjour monsieur" },
   { "author": "Bet", "text": "Bonjour madame" },
   { "author": "Alp", "text": "Comment va votre chien ?" },
+  { "author": "Tod", "text": "Oui, comment il va ?" },
   { "author": "Bet", "text": "Super bien !" },
-  { "author": "Gam", "text": "Euh... et moi tout le monde s'en fout ?" }
+  { "author": "Tod", "text": "C'est génial alors" }
 ]
