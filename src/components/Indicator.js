@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { selectors } from '../redux/module';
 
+
 const Indicator = ({
   humanAuthor,
   isHumanPlaying,

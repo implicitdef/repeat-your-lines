@@ -1,6 +1,8 @@
-import sentences from '../data/conversation';
+//import sentences from '../data/conversation';
 import * as advancedSpeech from '../services/advancedSpeech';
+import * as sentencesFileParser from '../services/sentencesFileParser';
 import { actions, selectors } from './module';
+import lelibertin from '../data/lelibertin';
 
 export function playCurrentSentenceRecursive() {
   return (dispatch, getState) => {
@@ -44,7 +46,9 @@ export function onHumanPlayed() {
 export function playSentences() {
   return (dispatch, getState) => {
     console.log('playSentences');
-    const authors = advancedSpeech.extractAuthorsFromSentences(sentences);
+    const authors = advancedSpeech.extractAuthorsFromSentences(
+      selectors.sentences(getState())
+    );
     const map = advancedSpeech.associateVoiceAndVoiceFeaturesToAuthors(authors);
     dispatch(actions.registerVoicesFeaturesMap(map));
     dispatch(actions.setCurrentSentenceIndex(0));
@@ -54,6 +58,7 @@ export function playSentences() {
 
 export function init() {
   return (dispatch, getState) => {
+    const sentences = sentencesFileParser.parse(lelibertin);
     dispatch(actions.registerSentences(sentences));
     dispatch(actions.setCurrentSentenceIndex(0));
     dispatch(actions.setHumanAuthor('Bet'));
