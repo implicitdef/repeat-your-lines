@@ -16,7 +16,9 @@ export function pickAvailableVoice({ lang, chosenVoice }) {
   if (firstVoiceForLang) return firstVoiceForLang;
   const firstVoice = voices[0];
   if (firstVoice) return firstVoice;
-  throw new Error("Couldn't find a voice");
+  throw new Error(
+    "Couldn't find a voice, available voices are " + voices.length
+  );
 }
 
 export function saySomething({

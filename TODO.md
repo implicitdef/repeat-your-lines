@@ -1,4 +1,3 @@
-- make it able to take the sentences (and who's the human) from parsing a file
-- make the initial space hit be equivalent to 'play conversation'
+- implement jump to arbitrary sentence
 - make 'play conversation' stop and reset everything
-- improve display and controls
+- improve display

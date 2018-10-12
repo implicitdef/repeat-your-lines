@@ -1,14 +1,12 @@
-//import sentences from '../data/conversation';
 import * as advancedSpeech from '../services/advancedSpeech';
-import * as sentencesFileParser from '../services/sentencesFileParser';
+import * as sentencesFileParser from '../services/sceneFileParser';
 import { actions, selectors } from './module';
-import lelibertin from '../data/lelibertin';
+import lelibertin from '../data/lelibertin.yaml';
 
 export function playCurrentSentenceRecursive() {
   return (dispatch, getState) => {
     const state = getState();
     const sentence = selectors.currentSentence(state);
-    console.log('OK I should play ', sentence);
     if (sentence) {
       const { text, author } = sentence;
       const humanAuthor = selectors.humanAuthor(state);
@@ -34,7 +32,6 @@ export function playCurrentSentenceRecursive() {
 export function onHumanPlayed() {
   return (dispatch, getState) => {
     const isHumanPlaying = selectors.isHumanPlaying(getState());
-    console.log('onHumanPlayed, was he playing ?', isHumanPlaying);
     if (isHumanPlaying) {
       dispatch(actions.setIsHumanPlaying(false));
       dispatch(actions.incrementCurrentSentenceIndex());
@@ -45,12 +42,6 @@ export function onHumanPlayed() {
 
 export function playSentences() {
   return (dispatch, getState) => {
-    console.log('playSentences');
-    const authors = advancedSpeech.extractAuthorsFromSentences(
-      selectors.sentences(getState())
-    );
-    const map = advancedSpeech.associateVoiceAndVoiceFeaturesToAuthors(authors);
-    dispatch(actions.registerVoicesFeaturesMap(map));
     dispatch(actions.setCurrentSentenceIndex(0));
     return dispatch(playCurrentSentenceRecursive());
   };
@@ -58,9 +49,14 @@ export function playSentences() {
 
 export function init() {
   return (dispatch, getState) => {
-    const sentences = sentencesFileParser.parse(lelibertin);
+    const {
+      sentences,
+      voiceFeaturesMap,
+      humanAuthor,
+    } = sentencesFileParser.parse(lelibertin);
     dispatch(actions.registerSentences(sentences));
+    dispatch(actions.registerVoicesFeaturesMap(voiceFeaturesMap));
     dispatch(actions.setCurrentSentenceIndex(0));
-    dispatch(actions.setHumanAuthor('Bet'));
+    dispatch(actions.setHumanAuthor(humanAuthor));
   };
 }
